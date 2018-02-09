@@ -2,28 +2,28 @@
 
 namespace App\Repository;
 
-use App\Entity\Product;
+use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
 /**
- * Class ProductRepository
+ * Class UserRepository
  *
  * @author Mathieu GUILLEMINOT <guilleminotm@gmail.com>
  */
-class ProductRepository extends ServiceEntityRepository
+class UserRepository extends ServiceEntityRepository
 {
     public function __construct(RegistryInterface $registry)
     {
-        parent::__construct($registry, Product::class);
+        parent::__construct($registry, User::class);
     }
 
     /*
     public function findBySomething($value)
     {
-        return $this->createQueryBuilder('p')
-            ->where('p.something = :value')->setParameter('value', $value)
-            ->orderBy('p.id', 'ASC')
+        return $this->createQueryBuilder('u')
+            ->where('u.something = :value')->setParameter('value', $value)
+            ->orderBy('u.id', 'ASC')
             ->setMaxResults(10)
             ->getQuery()
             ->getResult()
