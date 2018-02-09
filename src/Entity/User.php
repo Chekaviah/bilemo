@@ -3,6 +3,10 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\Collection;
+use ApiPlatform\Core\Annotation\ApiResource;
+use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
@@ -10,6 +14,11 @@ use Symfony\Component\Security\Core\User\UserInterface;
  *
  * @author Mathieu GUILLEMINOT <guilleminotm@gmail.com>
  *
+ * @ApiResource(attributes={
+ *     "validation_groups"={"client_validation"},
+ *     "normalization_context"={"groups"={"read"}},
+ *     "denormalization_context"={"groups"={"write"}}
+ * })
  * @ORM\Table(name="user")
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
  */
@@ -17,6 +26,8 @@ class User implements UserInterface, \Serializable
 {
     /**
      * @var int
+     *
+     * @Groups({"read", "write"})
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
@@ -25,6 +36,8 @@ class User implements UserInterface, \Serializable
 
     /**
      * @var string
+     *
+     * @Groups({"read", "write"})
      * @ORM\Column(type="string", length=25, unique=true)
      */
     private $username;
@@ -35,28 +48,49 @@ class User implements UserInterface, \Serializable
     private $plainPassword;
 
     /**
-     * @var string
+     * @var
+     *
+     * @Groups({"write"})
      * @ORM\Column(type="string", length=64)
      */
     private $password;
 
     /**
      * @var string
-     * @ORM\Column(type="string", length=60, unique=true)
+     *
+     * @Groups({"read", "write"})
+     * @ORM\Column(type="string", unique=true)
      */
     private $email;
 
     /**
      * @var boolean
+     *
+     * @Groups({"read", "write"})
      * @ORM\Column(name="is_active", type="boolean")
      */
     private $isActive = false;
 
     /**
      * @var array
-     * @ORM\Column(name="roles", type="json")
+     *
+     * @Groups({"write"})
+     * @ORM\Column(type="json")
      */
     private $roles = [];
+
+    /**
+     * @var Client[]|ArrayCollection
+     *
+     * @Groups({"read"})
+     * @ORM\OneToMany(targetEntity="App\Entity\Client", cascade={"persist", "remove", "refresh"}, mappedBy="user", orphanRemoval=true)
+     */
+    private $clients;
+
+    public function __construct()
+    {
+        $this->clients = new ArrayCollection();
+    }
 
     /**
      * @return int
@@ -101,7 +135,7 @@ class User implements UserInterface, \Serializable
     /**
      * @return string
      */
-    public function getPassword(): ?string
+    public function getPassword(): string
     {
         return $this->password;
     }
@@ -117,7 +151,7 @@ class User implements UserInterface, \Serializable
     /**
      * @return string
      */
-    public function getEmail(): ?string
+    public function getEmail(): string
     {
         return $this->email;
     }
@@ -214,5 +248,30 @@ class User implements UserInterface, \Serializable
     public function isEnabled()
     {
         return $this->isActive;
+    }
+
+    /**
+     * @param Client $client
+     */
+    public function addClient(Client $client)
+    {
+        $this->clients[] = $client;
+        $client->setUser($this);
+    }
+
+    /**
+     * @param Client $client
+     */
+    public function removeClient(Client $client)
+    {
+        $this->clients->removeElement($client);
+    }
+
+    /**
+     * @return Collection|Client[]
+     */
+    public function getClients(): Collection
+    {
+        return $this->clients;
     }
 }

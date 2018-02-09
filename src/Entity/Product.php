@@ -10,7 +10,9 @@ use ApiPlatform\Core\Annotation\ApiResource;
  *
  * @author Mathieu GUILLEMINOT <guilleminotm@gmail.com>
  *
- * @ApiResource
+ * @ApiResource(attributes={
+ *     "validation_groups"={"product_validation"}
+ * })
  * @ORM\Table(name="product")
  * @ORM\Entity(repositoryClass="App\Repository\ProductRepository")
  */
@@ -28,21 +30,21 @@ class Product
     /**
      * @var string
      *
-     * @ORM\Column(name="name", type="string", length=20)
+     * @ORM\Column(type="string", length=30, unique=true)
      */
     private $name;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="description", type="text")
+     * @ORM\Column(type="text")
      */
     private $description;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="price", type="decimal", scale=2)
+     * @ORM\Column(type="decimal", scale=2)
      */
     private $price;
 

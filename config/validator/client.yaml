@@ -1,0 +1,8 @@
+App\Entity\Client:
+    properties:
+        name:
+            - Length: { max: 30, groups: [client_validation] }
+        email:
+            - Email: { groups: [client_validation] }
+        address:
+            - Length: { max: 255, groups: [client_validation] }
