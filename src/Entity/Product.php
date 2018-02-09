@@ -8,7 +8,10 @@ use ApiPlatform\Core\Annotation\ApiResource;
 /**
  * Class Product
  *
+ * @author Mathieu GUILLEMINOT <guilleminotm@gmail.com>
+ *
  * @ApiResource
+ * @ORM\Table(name="product")
  * @ORM\Entity(repositoryClass="App\Repository\ProductRepository")
  */
 class Product
@@ -35,13 +38,6 @@ class Product
      * @ORM\Column(name="description", type="text")
      */
     private $description;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="brand", type="string", length=20)
-     */
-    private $brand;
 
     /**
      * @var string
@@ -83,27 +79,11 @@ class Product
     }
 
     /**
-     * @param string $name
+     * @param string $description
      */
     public function setDescription(string $description)
     {
         $this->description = $description;
-    }
-
-    /**
-     * @return string
-     */
-    public function getBrand(): string
-    {
-        return $this->brand;
-    }
-
-    /**
-     * @param string $brand
-     */
-    public function setBrand(string $brand)
-    {
-        $this->brand = $brand;
     }
 
     /**
