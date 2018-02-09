@@ -1,0 +1,6 @@
+App\Entity\Product:
+    properties:
+        name:
+            - Length: { max: 30, groups: [product_validation] }
+        price:
+            - Type: { type: numeric, groups: [product_validation] }

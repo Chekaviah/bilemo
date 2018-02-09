@@ -9,6 +9,8 @@ framework:
     session:
         handler_id: ~
 
+    validation: { enabled: true }
+
     #esi: ~
     #fragments: ~
     php_errors:
