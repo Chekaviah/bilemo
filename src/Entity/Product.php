@@ -10,9 +10,20 @@ use ApiPlatform\Core\Annotation\ApiResource;
  *
  * @author Mathieu GUILLEMINOT <guilleminotm@gmail.com>
  *
- * @ApiResource(attributes={
- *     "validation_groups"={"product_validation"}
- * })
+ * @ApiResource(
+ *     collectionOperations={
+ *         "get"={"method"="GET"},
+ *         "post"={"method"="GET", "access_control"="is_granted('ROLE_ADMIN')"}
+ *     },
+ *     itemOperations={
+ *         "get"={"method"="GET"},
+ *         "put"={"method"="PUT", "access_control"="is_granted('ROLE_ADMIN')"},
+ *         "delete"={"method"="DELETE", "access_control"="is_granted('ROLE_ADMIN')"}
+ *     },
+ *     attributes={
+ *         "validation_groups"={"product_validation"}
+ *     }
+ * )
  * @ORM\Table(name="product")
  * @ORM\Entity(repositoryClass="App\Repository\ProductRepository")
  */

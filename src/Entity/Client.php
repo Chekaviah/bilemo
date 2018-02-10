@@ -10,9 +10,20 @@ use ApiPlatform\Core\Annotation\ApiResource;
  *
  * @author Mathieu GUILLEMINOT <guilleminotm@gmail.com>
  *
- * @ApiResource(attributes={
- *     "validation_groups"={"client_validation"}
- * })
+ * @ApiResource(
+ *     collectionOperations={
+ *         "get"={"method"="GET", "access_control"="is_granted('ROLE_ADMIN')"},
+ *         "post"={"route_name"="api_client_post_collection_custom"}
+ *     },
+ *     itemOperations={
+ *         "get"={"method"="GET", "access_control"="is_granted('ROLE_ADMIN') or object.getUser() == user"},
+ *         "put"={"method"="PUT", "access_control"="is_granted('ROLE_ADMIN') or object.getUser() == user"},
+ *         "delete"={"method"="DELETE", "access_control"="is_granted('ROLE_ADMIN') or object.getUser() == user"},
+ *     },
+ *     attributes={
+ *         "validation_groups"={"client_validation"}
+ *     }
+ * )
  * @ORM\Entity(repositoryClass="App\Repository\ClientRepository")
  */
 class Client

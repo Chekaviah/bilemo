@@ -14,11 +14,22 @@ use Symfony\Component\Security\Core\User\UserInterface;
  *
  * @author Mathieu GUILLEMINOT <guilleminotm@gmail.com>
  *
- * @ApiResource(attributes={
- *     "validation_groups"={"client_validation"},
- *     "normalization_context"={"groups"={"read"}},
- *     "denormalization_context"={"groups"={"write"}}
- * })
+ * @ApiResource(
+ *     collectionOperations={
+ *         "get"={"method"="GET", "access_control"="is_granted('ROLE_ADMIN') or object == user"},
+ *         "post"={"method"="GET", "access_control"="is_granted('ROLE_ADMIN')"}
+ *     },
+ *     itemOperations={
+ *         "get"={"method"="GET", "access_control"="is_granted('ROLE_ADMIN') or object == user"},
+ *         "put"={"method"="PUT", "access_control"="is_granted('ROLE_ADMIN')"},
+ *         "delete"={"method"="DELETE", "access_control"="is_granted('ROLE_ADMIN') and object != user"}
+ *     },
+ *     attributes={
+ *         "validation_groups"={"client_validation"},
+ *         "normalization_context"={"groups"={"read"}},
+ *         "denormalization_context"={"groups"={"write"}}
+ *     }
+ * )
  * @ORM\Table(name="user")
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
  */
@@ -74,7 +85,6 @@ class User implements UserInterface, \Serializable
     /**
      * @var array
      *
-     * @Groups({"write"})
      * @ORM\Column(type="json")
      */
     private $roles = [];

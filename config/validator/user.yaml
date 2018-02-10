@@ -8,6 +8,8 @@ App\Entity\User:
             - Length:
                 max: 25
         password:
+            - NotBlank:
             - Symfony\Component\Security\Core\Validator\Constraints\UserPassword:
         email:
+            - NotBlank:
             - Email:
