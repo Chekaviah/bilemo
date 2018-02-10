@@ -13,7 +13,7 @@ use ApiPlatform\Core\Annotation\ApiResource;
  * @ApiResource(
  *     collectionOperations={
  *         "get"={"method"="GET"},
- *         "post"={"method"="GET", "access_control"="is_granted('ROLE_ADMIN')"}
+ *         "post"={"method"="POST", "access_control"="is_granted('ROLE_ADMIN')"}
  *     },
  *     itemOperations={
  *         "get"={"method"="GET"},
