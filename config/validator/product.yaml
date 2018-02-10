@@ -1,6 +1,8 @@
 App\Entity\Product:
     properties:
         name:
+            - NotBlank:
             - Length: { max: 30, groups: [product_validation] }
         price:
+            - NotBlank:
             - Type: { type: numeric, groups: [product_validation] }

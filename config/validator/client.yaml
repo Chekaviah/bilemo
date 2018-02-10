@@ -1,8 +1,11 @@
 App\Entity\Client:
     properties:
         name:
+            - NotBlank:
             - Length: { max: 30, groups: [client_validation] }
         email:
+            - NotBlank:
             - Email: { groups: [client_validation] }
         address:
+            - NotBlank:
             - Length: { max: 255, groups: [client_validation] }
