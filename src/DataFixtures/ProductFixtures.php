@@ -22,7 +22,7 @@ class ProductFixtures extends Fixture
             $product = new Product();
             $product->setName($name);
             $product->setDescription($this->getRandomText());
-            $product->setPrice(number_format(mt_rand(5000, 50000) / 10, 2, '.', ''));
+            $product->setPrice(number_format(mt_rand(5000, 50000)/100, 2, '.', ''));
 
             $manager->persist($product);
         }

@@ -29,12 +29,17 @@ security:
                 failure_handler: lexik_jwt_authentication.handler.authentication_failure
 
         api:
-            pattern: ^/
+            pattern: ^/api
             stateless: true
             anonymous: false
             provider: database_users
             lexik_jwt: ~
 
+        docs:
+            pattern: ^/docs
+            stateless: true
+            anonymous: true
+
     access_control:
         - { path: ^/login, role: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/, roles: IS_AUTHENTICATED_FULLY  }
+        - { path: ^/api, roles: IS_AUTHENTICATED_FULLY }

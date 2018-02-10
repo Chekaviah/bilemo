@@ -34,7 +34,7 @@ class ClientPostAction
      *
      * @Route(
      *     name="api_client_post_collection_custom",
-     *     path="/clients",
+     *     path="/api/clients",
      *     methods={"POST"},
      *     defaults={"_api_resource_class"=Client::class, "_api_collection_operation_name"="post"}
      * )
