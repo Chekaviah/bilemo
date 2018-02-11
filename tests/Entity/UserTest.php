@@ -27,13 +27,18 @@ class UserTest extends TestCase
         $user->setPassword('password');
         $user->setEmail('user@website.net');
         $user->setActive(true);
-        $user->setRoles(['ROLE_USER']);
         $user->addClient($clientStub);
         $user->addClient($client2Stub);
+
+        $serialize = $user->serialize();
 
         static::assertNull($user->getId());
         static::assertTrue($user->getActive());
         static::assertTrue($user->isEnabled());
+        static::assertNull($user->getSalt());
+        static::assertNull($user->eraseCredentials());
+        static::assertGreaterThan(0, strlen($serialize));
+        static::assertNull($user->unserialize($serialize));
         static::assertEquals('username', $user->getUsername());
         static::assertEquals('plainpassword', $user->getPlainPassword());
         static::assertEquals('password', $user->getPassword());
@@ -42,8 +47,10 @@ class UserTest extends TestCase
         static::assertEquals(0, $user->getClients()->offsetGet(0)->getId());
         static::assertEquals(2, $user->getClients()->count());
 
+        $user->setRoles(['ROLE_ADMIN']);
         $user->removeClient($client2Stub);
 
+        static::assertEquals(['ROLE_ADMIN'], $user->getRoles());
         static::assertEquals(1, $user->getClients()->count());
     }
 }
