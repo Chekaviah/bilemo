@@ -29,6 +29,12 @@
         "symfony/yaml": "^4.0"
     },
     "require-dev": {
+        "behat/behat": "^3.4",
+        "behat/mink": "dev-master",
+        "behat/mink-browserkit-driver": "dev-master",
+        "behat/mink-extension": "^2.3",
+        "behat/symfony2-extension": "^2.1",
+        "behatch/contexts": "^3.0",
         "blackfire/php-sdk": "^1.12",
         "doctrine/doctrine-fixtures-bundle": "^3.0",
         "symfony/browser-kit": "^4.0",
