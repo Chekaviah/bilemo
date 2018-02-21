@@ -1,30 +1,29 @@
 <?php
 
-use App\DataFixtures\UserFixtures;
 use App\Entity\User;
-use App\Service\JwtService;
 use Behat\Behat\Context\Context;
 use Behatch\Context\RestContext;
-use Doctrine\Common\DataFixtures\Executor\ORMExecutor;
-use Doctrine\Common\DataFixtures\Loader;
-use Doctrine\Common\DataFixtures\Purger\ORMPurger;
+use App\DataFixtures\UserFixtures;
 use Doctrine\ORM\Tools\SchemaTool;
+use Doctrine\Common\DataFixtures\Loader;
 use Doctrine\ORM\EntityManagerInterface;
 use Behat\Behat\Hook\Scope\BeforeScenarioScope;
-use Behat\Behat\Context\SnippetAcceptingContext;
 use Doctrine\Common\Persistence\ManagerRegistry;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpKernel\KernelInterface;
+use Doctrine\Common\DataFixtures\Purger\ORMPurger;
+use Doctrine\Common\DataFixtures\Executor\ORMExecutor;
+use Lexik\Bundle\JWTAuthenticationBundle\Services\JWTManager;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * Class FeatureContext
  *
  * @author Mathieu GUILLEMINOT <guilleminotm@gmail.com>
  */
-class FeatureContext implements Context, SnippetAcceptingContext
+class FeatureContext implements Context
 {
     /**
-     * @var KernelInterface
+     * @var ContainerInterface
      */
     private $container;
 
@@ -54,20 +53,22 @@ class FeatureContext implements Context, SnippetAcceptingContext
     private $restContext;
 
     /**
-     * @var JwtService
+     * @var JWTManager
      */
-    private $jwtService;
+    private $jwtManager;
 
     /**
      * FeatureContext constructor.
      *
+     * @param KernelInterface $kernel
      * @param ManagerRegistry $doctrine
+     * @param JWTManager      $jwtManager
      */
-    public function __construct(KernelInterface $kernel, ManagerRegistry $doctrine, JwtService $jwtService)
+    public function __construct(KernelInterface $kernel, ManagerRegistry $doctrine, JWTManager $jwtManager)
     {
         $this->container = $kernel->getContainer();
         $this->doctrine = $doctrine;
-        $this->jwtService = $jwtService;
+        $this->jwtManager = $jwtManager;
         $this->manager = $doctrine->getManager();
         $this->schemaTool = new SchemaTool($this->manager);
         $this->classes = $this->manager->getMetadataFactory()->getAllMetadata();
@@ -118,8 +119,7 @@ class FeatureContext implements Context, SnippetAcceptingContext
         $user = new User();
         $user->setUsername('reseller-0');
 
-        //$jwtManager = $this->container->get('lexik_jwt_authentication.jwt_manager');
-        $token = $this->jwtService->create($user);
+        $token = $this->jwtManager->create($user);
 
         $this->restContext = $scope->getEnvironment()->getContext(RestContext::class);
         $this->restContext->iAddHeaderEqualTo('Authorization', "Bearer $token");
