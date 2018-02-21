@@ -4,11 +4,9 @@ use App\Entity\User;
 use Behat\Behat\Context\Context;
 use Behatch\Context\RestContext;
 use App\DataFixtures\UserFixtures;
-use Doctrine\ORM\Tools\SchemaTool;
 use Doctrine\Common\DataFixtures\Loader;
 use Doctrine\ORM\EntityManagerInterface;
 use Behat\Behat\Hook\Scope\BeforeScenarioScope;
-use Doctrine\Common\Persistence\ManagerRegistry;
 use Symfony\Component\HttpKernel\KernelInterface;
 use Doctrine\Common\DataFixtures\Purger\ORMPurger;
 use Doctrine\Common\DataFixtures\Executor\ORMExecutor;
@@ -28,24 +26,9 @@ class FeatureContext implements Context
     private $container;
 
     /**
-     * @var ManagerRegistry
-     */
-    private $doctrine;
-
-    /**
      * @var EntityManagerInterface
      */
     private $manager;
-
-    /**
-     * @var SchemaTool
-     */
-    private $schemaTool;
-
-    /**
-     * @var array
-     */
-    private $classes;
 
     /**
      * @var RestContext
@@ -60,34 +43,13 @@ class FeatureContext implements Context
     /**
      * FeatureContext constructor.
      *
-     * @param KernelInterface $kernel
-     * @param ManagerRegistry $doctrine
-     * @param JWTManager      $jwtManager
+     * @param KernelInterface        $kernel
      */
-    public function __construct(KernelInterface $kernel, ManagerRegistry $doctrine, JWTManager $jwtManager)
+    public function __construct(KernelInterface $kernel)
     {
         $this->container = $kernel->getContainer();
-        $this->doctrine = $doctrine;
-        $this->jwtManager = $jwtManager;
-        $this->manager = $doctrine->getManager();
-        $this->schemaTool = new SchemaTool($this->manager);
-        $this->classes = $this->manager->getMetadataFactory()->getAllMetadata();
-    }
-
-    /**
-     * @BeforeScenario @createSchema
-     */
-    public function createDatabase()
-    {
-        $this->schemaTool->createSchema($this->classes);
-    }
-
-    /**
-     * @AfterScenario @dropSchema
-     */
-    public function dropDatabase()
-    {
-        $this->schemaTool->dropSchema($this->classes);
+        $this->manager = $this->container->get('doctrine.orm.default_entity_manager');
+        $this->jwtManager = $this->container->get('jwt_manager');
     }
 
     /**

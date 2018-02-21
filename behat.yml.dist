@@ -2,7 +2,7 @@ default:
     suites:
         default:
             contexts:
-                - FeatureContext: { kernel: "@kernel",doctrine: "@doctrine", jwtManager: "@jwt_manager" }
+                - FeatureContext: { kernel: "@kernel" }
                 - Behat\MinkExtension\Context\MinkContext
                 - Behatch\Context\RestContext
                 - Behatch\Context\JsonContext
