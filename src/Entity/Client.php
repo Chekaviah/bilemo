@@ -3,7 +3,9 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 
 /**
  * Class Client
@@ -12,18 +14,19 @@ use ApiPlatform\Core\Annotation\ApiResource;
  *
  * @ApiResource(
  *     collectionOperations={
- *         "get"={"method"="GET", "access_control"="is_granted('ROLE_ADMIN')"},
+ *         "get"={"method"="GET", "access_control"="is_granted('ROLE_ADMIN')", "access_control_message"="Only admins can see all clients"},
  *         "post"={"route_name"="api_client_post_collection_custom"}
  *     },
  *     itemOperations={
- *         "get"={"method"="GET", "access_control"="is_granted('ROLE_ADMIN') or object.getUser() == user"},
- *         "put"={"method"="PUT", "access_control"="is_granted('ROLE_ADMIN') or object.getUser() == user"},
- *         "delete"={"method"="DELETE", "access_control"="is_granted('ROLE_ADMIN') or object.getUser() == user"},
+ *         "get"={"method"="GET", "access_control"="is_granted('ROLE_ADMIN') or object.getUser() == user", "access_control_message"="You can see only your own clients"},
+ *         "put"={"method"="PUT", "access_control"="is_granted('ROLE_ADMIN') or object.getUser() == user", "access_control_message"="You can edit only your own clients"},
+ *         "delete"={"method"="DELETE", "access_control"="is_granted('ROLE_ADMIN') or object.getUser() == user", "access_control_message"="You can delete only your own clients"},
  *     },
  *     attributes={
  *         "validation_groups"={"client_validation"}
  *     }
  * )
+ * @ApiFilter(SearchFilter::class, properties={"user.id": "exact"})
  * @ORM\Entity(repositoryClass="App\Repository\ClientRepository")
  */
 class Client

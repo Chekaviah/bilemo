@@ -13,12 +13,12 @@ use ApiPlatform\Core\Annotation\ApiResource;
  * @ApiResource(
  *     collectionOperations={
  *         "get"={"method"="GET"},
- *         "post"={"method"="POST", "access_control"="is_granted('ROLE_ADMIN')"}
+ *         "post"={"method"="POST", "access_control"="is_granted('ROLE_ADMIN')", "access_control_message"="Only admins can add products"}
  *     },
  *     itemOperations={
  *         "get"={"method"="GET"},
- *         "put"={"method"="PUT", "access_control"="is_granted('ROLE_ADMIN')"},
- *         "delete"={"method"="DELETE", "access_control"="is_granted('ROLE_ADMIN')"}
+ *         "put"={"method"="PUT", "access_control"="is_granted('ROLE_ADMIN')", "access_control_message"="Only admins can edit products"},
+ *         "delete"={"method"="DELETE", "access_control"="is_granted('ROLE_ADMIN')", "access_control_message"="Only admins can delete products"}
  *     },
  *     attributes={
  *         "validation_groups"={"product_validation"}

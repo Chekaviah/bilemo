@@ -5,6 +5,7 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\Collection;
 use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Core\Annotation\ApiSubresource;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -16,13 +17,13 @@ use Symfony\Component\Security\Core\User\UserInterface;
  *
  * @ApiResource(
  *     collectionOperations={
- *         "get"={"method"="GET"},
- *         "post"={"method"="POST", "access_control"="is_granted('ROLE_ADMIN')"}
+ *         "get"={"method"="GET", "access_control"="is_granted('ROLE_ADMIN')", "access_control_message"="Only admins can see all users"},
+ *         "post"={"method"="POST", "access_control"="is_granted('ROLE_ADMIN')", "access_control_message"="Only admins can create users"}
  *     },
  *     itemOperations={
- *         "get"={"method"="GET", "access_control"="is_granted('ROLE_ADMIN') or object == user"},
- *         "put"={"method"="PUT", "access_control"="is_granted('ROLE_ADMIN')"},
- *         "delete"={"method"="DELETE", "access_control"="is_granted('ROLE_ADMIN') and object != user"}
+ *         "get"={"method"="GET", "access_control"="is_granted('ROLE_ADMIN') or object == user", "access_control_message"="You can only see your own user"},
+ *         "put"={"method"="PUT", "access_control"="is_granted('ROLE_ADMIN')", "access_control_message"="Only admins can edit users"},
+ *         "delete"={"method"="DELETE", "access_control"="is_granted('ROLE_ADMIN') and object != user", "access_control_message"="Only admins can delete users"}
  *     },
  *     attributes={
  *         "validation_groups"={"client_validation"},
@@ -92,7 +93,7 @@ class User implements UserInterface, \Serializable
     /**
      * @var Client[]|ArrayCollection
      *
-     * @Groups({"read"})
+     * @ApiSubresource
      * @ORM\OneToMany(targetEntity="App\Entity\Client", cascade={"persist", "remove", "refresh"}, mappedBy="user", orphanRemoval=true)
      */
     private $clients;
