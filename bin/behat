@@ -1,0 +1,9 @@
+#!/usr/bin/env php
+<?php
+
+if (!file_exists(dirname(__DIR__).'/vendor/behat/behat/bin/behat')) {
+    echo "Unable to find the `behat` script in `/vendor/behat/behat/bin/`.\n";
+    exit(1);
+}
+
+require dirname(__DIR__).'/vendor/behat/behat/bin/behat';

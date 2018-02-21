@@ -9,5 +9,9 @@ env:
 
 script:
    - composer install
+   - mkdir var/jwt
+   - mv tests/private.pem var/jwt/private.pem
+   - mv tests/public.pem var/jwt/public.pem
    - php bin/console doctrine:schema:create --env=test
    - php bin/phpunit
+   - php bin/behat
