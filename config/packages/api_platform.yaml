@@ -15,9 +15,7 @@ api_platform:
     http_cache:
         etag: true
         max_age: 3600
-        invalidation:
-            enabled: true
-
+        shared_max_age: 3600
     formats:
         jsonld:
             mime_types: ['application/ld+json']
