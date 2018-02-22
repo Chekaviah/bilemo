@@ -14,7 +14,7 @@ use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
  *
  * @ApiResource(
  *     collectionOperations={
- *         "get"={"method"="GET", "access_control"="is_granted('ROLE_ADMIN')", "access_control_message"="Only admins can see all clients"},
+ *         "get"={"route_name"="api_client_get_collection_custom"},
  *         "post"={"route_name"="api_client_post_collection_custom"}
  *     },
  *     itemOperations={
@@ -26,7 +26,7 @@ use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
  *         "validation_groups"={"client_validation"}
  *     }
  * )
- * @ApiFilter(SearchFilter::class, properties={"user.id": "exact"})
+ * @ApiFilter(SearchFilter::class, properties={"user": "exact"})
  * @ORM\Entity(repositoryClass="App\Repository\ClientRepository")
  */
 class Client
