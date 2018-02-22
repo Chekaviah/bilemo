@@ -5,7 +5,6 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\Collection;
 use ApiPlatform\Core\Annotation\ApiResource;
-use ApiPlatform\Core\Annotation\ApiSubresource;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -93,7 +92,6 @@ class User implements UserInterface, \Serializable
     /**
      * @var Client[]|ArrayCollection
      *
-     * @ApiSubresource
      * @ORM\OneToMany(targetEntity="App\Entity\Client", cascade={"persist", "remove", "refresh"}, mappedBy="user", orphanRemoval=true)
      */
     private $clients;
