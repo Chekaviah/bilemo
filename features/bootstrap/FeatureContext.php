@@ -76,7 +76,8 @@ class FeatureContext implements Context
     /**
      * @logout
      */
-    public function logout() {
+    public function logout()
+    {
         $this->restContext->iAddHeaderEqualTo('Authorization', '');
     }
 }
