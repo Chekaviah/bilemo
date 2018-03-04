@@ -34,3 +34,8 @@ services:
     jwt_manager:
         public: true
         alias: lexik_jwt_authentication.jwt_manager
+
+    App\Swagger\SwaggerDecorator:
+        decorates: 'api_platform.swagger.normalizer.documentation'
+        arguments: [ '@App\Swagger\SwaggerDecorator.inner' ]
+        autoconfigure: false
