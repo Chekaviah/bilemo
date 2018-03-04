@@ -196,8 +196,9 @@ class User implements UserInterface, \Serializable
     {
         $roles = $this->roles;
 
-        if (empty($roles))
+        if (empty($roles)) {
             $roles[] = 'ROLE_USER';
+        }
 
         return array_unique($roles);
     }
@@ -243,7 +244,7 @@ class User implements UserInterface, \Serializable
      */
     public function unserialize($serialized)
     {
-        list (
+        list(
             $this->id,
             $this->username,
             $this->password,

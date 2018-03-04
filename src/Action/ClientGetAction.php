@@ -53,8 +53,9 @@ class ClientGetAction
         $user = $this->tokenStorage->getToken()->getUser();
         $userId = $request->query->getInt('user');
 
-        if (false === $authorizationChecker->isGranted('ROLE_ADMIN') && $user->getId() !== $userId)
+        if (false === $authorizationChecker->isGranted('ROLE_ADMIN') && $user->getId() !== $userId) {
             throw new AccessDeniedException('You can only see your own clients');
+        }
 
         return $data;
     }
